@@ -13,6 +13,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import Navigation from './Components/MainNavigation'
+import Profile from './Pages/Pages/ProfileTab/Profile'
+import EditProfile from './Pages/Pages/ProfileTab/EditProfile'
 
 const fakeAuth = () =>
   new Promise((resolve) => {
@@ -115,12 +117,19 @@ function App() {
           }>
           <Route path="schedule" element={<Home />} />
           <Route 
-            path="/profile" 
+            path="profile" 
             element={ 
               <ProtectedRoute>
-                <About />
-              </ProtectedRoute>} 
-            />
+                <Profile />
+              </ProtectedRoute>} >
+                <Route 
+                path="edit-profile" 
+                element={ 
+                  <ProtectedRoute>
+                    <EditProfile />
+                  </ProtectedRoute>} 
+              />
+              </Route>
           <Route path="posts" element={<Posts />}>
             <Route path="/" element={<PostLists />} />
             <Route path=":slug" element={<Post />} />
