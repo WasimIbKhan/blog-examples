@@ -71,28 +71,35 @@ const ProtectedRoute = ({ children }) => {
 
 const BlogPosts = {
   '1': {
-    title: 'First Blog Post',
-    description: 'Lorem ipsum dolor sit amet, consectetur adip.'
+    name: 'Wasim',
+    description: 'Is meant to work on the Schedule Tab, hes be able to create tasks, then add them to the schedule'
   },
   '2': {
-    title: 'Second Blog Post',
-    description: 'Hello React Router v6'
-  }
+    name: 'Amr Khalid A Bawzeer',
+    description: 'Is meant to work on the profile UI and Edit Profile UI'
+  },
+  '3': {
+    name: 'Aadil Sayed',
+    description: 'Is meant to work on the Login Page UI'
+  },
+  '4': {
+    name: 'Haotian Chen',
+    description: 'Is meant to work on the Signup page UI'
+  },
+  '5': {
+    name: 'Santhya Kugathas',
+    description: 'Is meant to work on the Menu Tab, which is suppost to be able to assign user permissions and assign group members to a line manager'
+  },
+  '6': {
+    name: 'Naivedhya Premal Shah',
+    description: 'Is meant to work on the Menu Tab, which is suppost to be able to assign user permissions and assign group members to a line manager'
+  },
+  '7': {
+    name: 'Venkata Stripada Gayatri Sistla',
+    description: 'Is meant to work on the Menu Tab, which is suppost to be able to assign user permissions and assign group members to a line manager'
+  },
 };
 
-function Post() {
-  const { slug } = useParams();
-  const post = BlogPosts[slug];
-
-  const { title, description } = post;
-
-  return (
-    <div style={{ padding: 20 }}>
-      <h3>{title}</h3>
-      <p>{description}</p>
-    </div>
-  );
-}
 
 function App() {
   return (
@@ -100,7 +107,7 @@ function App() {
       <AuthProvider>
       <Routes>
         <Route index element={<Login />} />
-        <Route path="login" element={<Login />} />
+        <Route path="login" element={<Login auth={useAuth()}/>} />
         <Route path='dashboard' element={
             <ProtectedRoute>
               <Dashboard />
@@ -114,12 +121,7 @@ function App() {
                 <About />
               </ProtectedRoute>} 
             />
-          <Route path="menu" 
-            element={
-              <ProtectedRoute>
-                <Posts />
-              </ProtectedRoute>}
-              >
+          <Route path="posts" element={<Posts />}>
             <Route path="/" element={<PostLists />} />
             <Route path=":slug" element={<Post />} />
           </Route>
@@ -179,7 +181,7 @@ function About() {
 function Posts() {
   return (
     <div style={{ padding: 20 }}>
-      <h2>Blog</h2>
+      <h2>Organisation Members</h2>
       {/* render any matching child */}
       <Outlet />
     </div>
@@ -189,14 +191,28 @@ function Posts() {
 function PostLists() {
   return (
     <ul>
-      {Object.entries(BlogPosts).map(([slug, { title }]) => (
+      {Object.entries(BlogPosts).map(([slug, { name }]) => (
         <li key={slug}>
-          <Link to={`/posts/${slug}`}>
-            <h3>{title}</h3>
+          <Link to={`${slug}`}>
+            <h3>{name}</h3>
           </Link>
         </li>
       ))}
     </ul>
+  );
+}
+
+function Post() {
+  const { slug } = useParams();
+  const post = BlogPosts[slug];
+
+  const { title, description } = post;
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h3>{title}</h3>
+      <p>{description}</p>
+    </div>
   );
 }
 export default App;
