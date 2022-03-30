@@ -97,9 +97,13 @@ function App() {
     <Router>
       <AuthProvider>
       <Routes>
-        <Route index element={<Login auth={useAuth()}/>} />
-        {<Route path="login" element={<Login auth={useAuth()}/>} />}
-        <Route path='dashboard' element={<Dashboard />}>
+        <Route index element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path='dashboard' element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }>
           <Route path="home" element={<Home />} />
           <Route 
             path="/about" 
@@ -126,17 +130,18 @@ function App() {
 
 const Navigation = () => {
   const { token, onLogout } = useAuth();
+  
   return(
     <nav style={{ margin: 10 }}>
-        <Link to="/home" style={{ padding: 5 }}>
+        <NavLink to="home" style={{ padding: 5 }}>
           Home
-        </Link>
-        <Link to="/about" style={{ padding: 5 }}>
+        </NavLink>
+        <NavLink to="about" style={{ padding: 5 }}>
           About
-        </Link>
-        <Link to="/posts" style={{ padding: 5 }}>
+        </NavLink>
+        <NavLink to="posts" style={{ padding: 5 }}>
           Posts
-        </Link>
+        </NavLink>
       {token && (
         <button type="button" onClick={onLogout}>
           Sign Out
@@ -148,7 +153,7 @@ const Navigation = () => {
 }
 const Home = () => {
   const { onLogin } = useAuth();
-
+  
   return (
     <>
       <h2>Home (Public)</h2>
@@ -168,7 +173,6 @@ const Login = props => {
           <button type="button" onClick={onLogin}>
               Sign In
           </button>
-          <Outlet />
       </div>
   )
 }
