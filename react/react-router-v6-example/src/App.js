@@ -12,6 +12,8 @@ import {
   useNavigate,
   useLocation,
 } from 'react-router-dom';
+import Navigation from './Components/MainNavigation'
+
 const fakeAuth = () =>
   new Promise((resolve) => {
     setTimeout(() => resolve('2342f2f1d131rf12'), 250);
@@ -104,15 +106,15 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           }>
-          <Route path="home" element={<Home />} />
+          <Route path="schedule" element={<Home />} />
           <Route 
-            path="/about" 
+            path="/profile" 
             element={ 
               <ProtectedRoute>
                 <About />
               </ProtectedRoute>} 
             />
-          <Route path="posts" 
+          <Route path="menu" 
             element={
               <ProtectedRoute>
                 <Posts />
@@ -128,29 +130,6 @@ function App() {
   );
 }
 
-const Navigation = () => {
-  const { token, onLogout } = useAuth();
-  
-  return(
-    <nav style={{ margin: 10 }}>
-        <NavLink to="home" style={{ padding: 5 }}>
-          Home
-        </NavLink>
-        <NavLink to="about" style={{ padding: 5 }}>
-          About
-        </NavLink>
-        <NavLink to="posts" style={{ padding: 5 }}>
-          Posts
-        </NavLink>
-      {token && (
-        <button type="button" onClick={onLogout}>
-          Sign Out
-        </button>
-      )}
-      {!token && <Navigate replace to="/login" />}
-      </nav>
-  )
-}
 const Home = () => {
   const { onLogin } = useAuth();
   
@@ -181,7 +160,7 @@ const Login = props => {
 const Dashboard = () => {
   return (
     <div>
-      <Navigation />
+      <Navigation auth={useAuth()}/>
       <Outlet />
     </div>
   )
